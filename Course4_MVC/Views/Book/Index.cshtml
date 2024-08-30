@@ -1,0 +1,121 @@
+﻿@model Course4_MVC.Models.BookSearchArgs
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>圖書維護系統</h2>
+
+@*@ViewBag.Label*@
+
+@using (Html.BeginForm("Index", "Book", FormMethod.Post, new { id = "Form1" }))
+{
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.BookName, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.BookClass, (List<SelectListItem>)ViewBag.BookClassData, "請選擇...")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookKeeper, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.BookKeeper, (List<SelectListItem>)ViewBag.BookKeeperData, "請選擇...")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.BookStatus, (List<SelectListItem>)ViewBag.BookStatusData, "請選擇...")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-10">
+                <input type="submit" value="查詢" />
+                @Html.ActionLink("新增", "InsertBook")
+                @Html.ActionLink("清除", "Index")
+            </div>
+        </div>
+    
+        @if (ViewBag.SearchResult != null)
+        {
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr id>
+                        <th>圖書類別</th>
+                        <th>書名</th>
+                        <th>購書日期</th>
+                        <th>借閱狀態</th>
+                        <th>借閱人</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in (List<Course4_MVC.Models.Books>)ViewBag.SearchResult)
+                    {
+                    <tr id="@item.bookID">
+                        <td>@item.bookClass</td>
+                        @*<td>@item.bookName</td>*@
+                        @if (!string.IsNullOrEmpty(item.bookName))
+                        {
+                            <td>@Html.ActionLink(item.bookName, "BookDetails", new { BookID = item.bookID, @value = @item.bookID })</td>
+                        }
+                        else
+                        {
+                            <td>@item.bookName</td>
+                        }
+                        <td>@item.bookBoughtDate</td>
+                        <td>@item.bookStatus</td>
+                        <td>@item.bookKeeper</td>
+                        <td>修改</td>
+                        <td>
+                            @*onclick="test(this, '@item.bookID');"*@
+                            <a class="btnDelete" href="#" onclick="test(this, '@item.bookID');">刪除</a>
+                            <input class="hidBook" type="hidden" value='@item.bookID' />
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".btnDelete").click(function (e) {
+            console.log("test")
+            e.preventDefault();
+            var tr = $(this).closest('tr')
+            $.ajax({
+                type: "POST",
+                url: "/Book/DeleteBook",
+                data: "bookID=" + $(this).next().val(),
+                dataType: "json",
+                successs: function (response) {
+                    console.log("test")
+                    $(tr).remove;
+                }, error: function (error) {
+                    alert("系統發生錯誤");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+

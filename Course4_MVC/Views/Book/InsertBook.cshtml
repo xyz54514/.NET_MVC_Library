@@ -1,0 +1,85 @@
+﻿@model Course4_MVC.Models.Books
+
+@{
+    ViewBag.Title = "InsertBook";
+}
+
+<h2>InsertBook</h2>
+@*@{ 
+    
+    string a = "abc";
+    <label  class = "control-label col-md-2">@a</label>
+}*@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken() @*防止攻擊用*@
+
+<div class="form-horizontal">
+    @*<h4>Books</h4>*@
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @*<label for=@model.bookName class = "control-label col-md-2">@model.bookName</label>
+            <input type="text" class = "form-control" name="@model.bookName" value="">*@
+        @Html.LabelFor(model => model.bookName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.bookName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.bookName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bookAuthor, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.bookAuthor, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.bookAuthor, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bookPublisher, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.bookPublisher, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.bookPublisher, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bookIntroduce, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.bookIntroduce, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.bookIntroduce, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bookBoughtDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.bookBoughtDate, new { @class = "form-control", @type = "Date" })
+            @Html.ValidationMessageFor(model => model.bookBoughtDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bookClass, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.bookClass, (List<SelectListItem>)ViewBag.BookClassData, "請選擇...", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.bookClass, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @Html.DropDownListFor(model => model.bookStatus, (List<SelectListItem>)ViewBag.BookStatusData, new { @class = "hidden" })
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="創建" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("返回", "Index")
+</div>
+

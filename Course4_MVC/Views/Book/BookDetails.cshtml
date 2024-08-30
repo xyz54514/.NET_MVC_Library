@@ -1,0 +1,207 @@
+﻿@model Course4_MVC.Models.Books
+@{
+    ViewBag.Title = "BookDetails";
+}
+
+@if (ViewBag.Mode == 'D')
+{
+    <h2>BookDetails</h2>
+}
+else if (ViewBag.Mode == 'U')
+{
+    <h2>BookUpdate</h2>
+}
+
+@using (Html.BeginForm("BookDetails", "Book", FormMethod.Post, new { id = "Form2" }))
+{
+    @Html.AntiForgeryToken() @*防止攻擊用*@
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <table>
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @*<label>bookName</label>*@
+                <div class="col-md-10">
+                    @if (ViewBag.Mode == 'D')
+                    {
+                        @Html.TextBoxFor(model => model.bookName, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookName, @disabled = "disabled" })
+                    }
+                    else if (ViewBag.Mode == 'U')
+                    {
+                        @Html.TextBoxFor(model => model.bookName, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookName })
+                        @Html.ValidationMessageFor(model => model.bookName, "", new { @class = "text-danger" })
+
+                    }
+                    @*@Html.TextBoxFor(model => model.bookName, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookName, @disabled = "disabled" })*@
+                </div>
+                @*<label>@ViewBag.BookDetails[0].bookName</label>*@
+                @*<td>@ViewBag.BookDetails[0].bookName</td>*@
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookAuthor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (ViewBag.Mode == 'D')
+                    {
+                        @Html.TextBoxFor(model => model.bookAuthor, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookAuthor, @disabled = "disabled" })
+                    }
+                    else if (ViewBag.Mode == 'U')
+                    {
+                        @Html.TextBoxFor(model => model.bookAuthor, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookAuthor })
+                        @Html.ValidationMessageFor(model => model.bookAuthor, "", new { @class = "text-danger" })
+
+                    }
+                    @*@Html.TextBoxFor(model => model.bookAuthor, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookAuthor, @disabled = "disabled" })*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookPublisher, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (ViewBag.Mode == 'D')
+                    {
+                        @Html.TextBoxFor(model => model.bookPublisher, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookPublisher, @disabled = "disabled" })
+                    }
+                    else if (ViewBag.Mode == 'U')
+                    {
+                        @Html.TextBoxFor(model => model.bookPublisher, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookPublisher })
+                        @Html.ValidationMessageFor(model => model.bookPublisher, "", new { @class = "text-danger" })
+
+                    }
+                    @*@Html.TextBoxFor(model => model.bookPublisher, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookPublisher, @disabled = "disabled" })*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookIntroduce, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (ViewBag.Mode == 'D')
+                    {
+                        @Html.TextBoxFor(model => model.bookIntroduce, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookIntroduce, @disabled = "disabled" })
+                    }
+                    else if (ViewBag.Mode == 'U')
+                    {
+                        @Html.TextBoxFor(model => model.bookIntroduce, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookIntroduce })
+                        @Html.ValidationMessageFor(model => model.bookIntroduce, "", new { @class = "text-danger" })
+
+                    }
+                    @*@Html.TextBoxFor(model => model.bookIntroduce, "", new { @class = "form-control", @Value = @ViewBag.BookDetails[0].bookIntroduce, @disabled = "disabled" })*@
+                </div>
+            </div>
+
+            @{
+                string date = "";
+                if (!string.IsNullOrEmpty(ViewBag.BookDetails[0].bookBoughtDate))
+                {
+                    date = Convert.ToDateTime(@ViewBag.BookDetails[0].bookBoughtDate).ToString("yyyy-MM-dd");
+                }
+                //string date = Convert.ToDateTime(@ViewBag.BookDetails[0].bookBoughtDate).ToString("yyyy-MM-dd");
+
+            }
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookBoughtDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (ViewBag.Mode == 'D')
+                    {
+                        @Html.TextBoxFor(model => model.bookBoughtDate, "", new { @class = "form-control", @Value = @date, @type = "Date", @disabled = "disabled" })
+                    }
+                    else if (ViewBag.Mode == 'U')
+                    {
+                        @Html.TextBoxFor(model => model.bookBoughtDate, "", new { @class = "form-control", @Value = @date, @type = "Date" })
+                        @Html.ValidationMessageFor(model => model.bookBoughtDate, "", new { @class = "text-danger" })
+
+                    }
+                    @*@Html.TextBoxFor(model => model.bookBoughtDate, "", new { @class = "form-control", @Value = @date, @type = "Date", @disabled = "disabled" })*@
+                </div>
+            </div>
+            @*<p>@ViewBag.BookDetails[0].bookBoughtDate</p>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookClass, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (ViewBag.Mode == 'D')
+                    {
+                        @Html.DropDownListFor(model => model.bookClass, (List<SelectListItem>)ViewBag.BookClassData, "ViewBag.BookDetails[0].bookClass", new { @class = "form-control", @disabled = "disabled" })
+                    }
+                    else if (ViewBag.Mode == 'U')
+                    {
+                        @Html.DropDownListFor(model => model.bookClass, (List<SelectListItem>)ViewBag.BookClassData, "ViewBag.BookDetails[0].bookClass", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.bookClass, "", new { @class = "text-danger" })
+
+                    }
+                    @*@Html.DropDownListFor(model => model.bookClass, (List<SelectListItem>)ViewBag.BookClassData, "ViewBag.BookDetails[0].bookClass", new { @class = "form-control", @disabled = "disabled" })*@
+                </div>
+            </div>
+
+            @*<p>@ViewBag.BookDetails[0].bookStatus</p>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (ViewBag.Mode == 'D')
+                    {
+                        @Html.DropDownListFor(model => model.bookStatus, (List<SelectListItem>)ViewBag.BookStatusData, new { @class = "form-control", @disabled = "disabled" })
+                    }
+                    else if (ViewBag.Mode == 'U')
+                    {
+                        @Html.DropDownListFor(model => model.bookStatus, (List<SelectListItem>)ViewBag.BookStatusData, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.bookStatus, "", new { @class = "text-danger" })
+
+                    }
+                    @*@Html.DropDownListFor(model => model.bookStatus, (List<SelectListItem>)ViewBag.BookStatusData, new { @class = "form-control", @disabled = "disabled" })*@
+                    @*@if (@ViewBag.BookDetails[0].bookStatus == "")*@
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.BookDetails[0].bookKeeper))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.bookKeeper, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (ViewBag.Mode == 'D')
+                        {
+                            @Html.DropDownListFor(model => model.bookKeeper, (List<SelectListItem>)ViewBag.BookKeeperData, new { @class = "form-control", @disabled = "disabled" })
+                        }
+                        else if (ViewBag.Mode == 'U')
+                        {
+                            @Html.DropDownListFor(model => model.bookKeeper, (List<SelectListItem>)ViewBag.BookKeeperData, new { @class = "form-control" })
+                        }
+                        @*@Html.DropDownListFor(model => model.bookKeeper, (List<SelectListItem>)ViewBag.BookKeeperData, new { @class = "form-control", @disabled = "disabled" })*@
+
+                    </div>
+                </div>
+            }
+
+            @*<div>
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("修改", "UpdateBook", new { @class = "btn btn-default", bookID = ViewBag.BookDetails[0].BookId })
+                    </div>
+                </div>*@
+            @Html.TextBoxFor(model => model.bookID, "", new { @class = "hidden", @Value = @ViewBag.BookDetails[0].bookID })
+
+            @if (ViewBag.Mode == 'U')
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="確認修改" class="btn btn-default" />
+                    </div>
+                </div>
+
+            }
+
+        </div>
+
+
+    </table>
+}
+
+@if (ViewBag.Mode == 'D')
+{
+    <div>
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("修改", "UpdateBook", new { @class = "btn btn-default", bookID = ViewBag.BookDetails[0].bookID })
+        </div>
+    </div>
+}
+
